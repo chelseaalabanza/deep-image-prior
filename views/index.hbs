@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGIMAP</title>
+
+    {{!-- Boostrap --}}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    {{!-- Google Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="/public/styles/styles.css">
+</head>
+<body>
+
+    {{> navbar}}
+
+    <div class="container-wrapper">
+
+        
+
+        {{!-- Page Content --}}
+        <div class="page-content" style="min-width: 80vw">
+
+            <div class="title"><h1>IMAGE RESTORATION </h1></div>
+
+            {{> overview}}
+
+            {{> restore}}
+
+            {{> how}}
+
+            {{> team}}
+
+            {{> references}}
+
+        </div>
+
+
+        {{!-- Footer (For space under page content box) --}}
+        <div class="footer"></div>
+
+
+    </div>    
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="/public/styles/activeSections.js"></script>
+    <script src="/public/styles/navScroll.js"></script>
+    <script src="/controllers/handleSubmit.js"></script>
+</body>
+</html>

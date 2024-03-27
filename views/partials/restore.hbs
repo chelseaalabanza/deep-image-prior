@@ -1,0 +1,35 @@
+<div class="section" id="restore">
+    <div class="page-heading">RESTORE AN IMAGE</div>
+
+    {{#if errMsg}}
+        <h6 class="alert alert-danger mt-4">{{{errMsg}}}</h6>
+    {{/if}}
+
+    {{#if successMsg}}
+        <h6 class="alert alert-success mt-4">{{{successMsg}}}</h6>
+    {{/if}}
+
+    <div id="images">
+
+        {{!-- Input --}}
+        <div class="wrapper">
+            <div class="box upload-button-container">
+                <input name="rawImg" type="file" id="input" class="upload-input">
+                <label for="input" class="upload-button"><h1>+</h1></label>
+            </div>
+            <br>
+            <div><h5>INPUT</h5></div>
+        </div>
+
+        {{!-- Output --}}
+        <div class="wrapper">
+            <div class="box output-container">
+                <img src="" alt="{{output}}">
+            </div>
+            <br>
+            <div><h5>OUTPUT</h5></div>
+        </div>
+
+    </div>
+
+</div>
