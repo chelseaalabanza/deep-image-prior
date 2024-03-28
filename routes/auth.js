@@ -13,4 +13,6 @@ const db = mysql.createConnection({
 
 router.post('/uploadImage', authController.uploadImage );
 
+router.post('/displayOutput', authController.displayOutput );
+
 module.exports = router;

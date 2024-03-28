@@ -1,3 +1,4 @@
+// auth.js
 const mysql = require('mysql');
 const path = require('path');
 
@@ -8,42 +9,37 @@ const db = mysql.createConnection({
     database: process.env.DATABASE
 });
 
+let savedUploadId; 
+
 exports.uploadImage = (req, res) => {
-    // Check if file was uploaded
-    if (!req.files || !req.files.rawImg) {
+    if (!req.files || !req.files.inputImg) {
         const errorMessage = 'No image uploaded.';
         console.error(errorMessage);
-        return res.render('index', { errMsg: errorMessage });
-    }
-
-    const rawImg = req.files.rawImg;
-
-    // Validate image MIME type
-    const validImageTypes = ['image/jpeg', 'image/png'];
-    if (!validImageTypes.includes(rawImg.mimetype)) {
-        const errorMessage = 'Invalid file type. Please upload an image in JPEG or PNG format.';
-        console.error('Invalid file type:', rawImg.mimetype);
         return res.status(400).json({ error: errorMessage });
     }
 
-    // Insert original filename into database (so its ID can exist first)
-    db.query('INSERT INTO uploads (input) VALUES (?)', [rawImg.name], (error, result) => {
+    const inputImg = req.files.inputImg;
+
+    const validImageTypes = ['image/jpeg', 'image/png'];
+    if (!validImageTypes.includes(inputImg.mimetype)) {
+        const errorMessage = 'Invalid file type. Please upload an image in JPEG or PNG format.';
+        console.error('Invalid file type:', inputImg.mimetype);
+        return res.status(400).json({ error: errorMessage });
+    }
+
+    db.query('INSERT INTO uploads (input) VALUES (?)', [inputImg.name], (error, result) => {
         if (error) {
             console.error('Error inserting record into database:', error);
             return res.status(500).json({ error: 'Error uploading file.' });
         }
 
-        const uploadId = result.insertId;
+        savedUploadId = result.insertId; 
 
-        // Generate new filename with ID
-        const fileExtension = rawImg.name.split('.').pop();
-        const newFileName = `input_${uploadId}.${fileExtension}`;
+        const fileExtension = inputImg.name.split('.').pop();
+        const newFileName = `input_${savedUploadId}.${fileExtension}`;
 
-        console.log('New filename:', newFileName);
-
-        // Move image to uploads directory
         const uploadPath = path.resolve(__dirname, '../public/inputs', newFileName);
-        rawImg.mv(uploadPath, async (error) => {
+        inputImg.mv(uploadPath, async (error) => {
             if (error) {
                 console.error('Error uploading file:', error);
                 return res.status(500).json({ error: 'Error uploading file.' });
@@ -51,31 +47,50 @@ exports.uploadImage = (req, res) => {
 
             console.log('File uploaded successfully to:', uploadPath);
 
-            // Update record in database with new filename
-            db.query('UPDATE uploads SET input = ? WHERE id = ?', [newFileName, uploadId], (error, result) => {
+            // Update the filename in the database
+            db.query('UPDATE uploads SET input = ? WHERE id = ?', [newFileName, savedUploadId], (error) => {
                 if (error) {
-                    console.error('Error updating database record:', error);
-                    return res.status(500).json({ error: 'Error updating database record.' });
+                    console.error('Error updating filename in database:', error);
+                    return res.status(500).json({ error: 'Error updating filename in database.' });
                 }
 
-                console.log('Database record updated with new filename');
+                console.log('Filename updated in the database.');
 
-                // Fetch the corresponding output column for the updated record
-                db.query('SELECT output FROM uploads WHERE id = ?', [uploadId], (error, result) => {
-                    if (error) {
-                        console.error('Error fetching output filename:', error);
-                        return res.render('index', {
-                            errMsg: 'Error fetching output filename.'
-                        });
-                    }
-
-                    const outputFileName = result[0].output;
-                    console.log('Retrieved output filename:', outputFileName);
-
-                    // Pass the retrieved output filename to the rendering function
-                    return res.render('index', { successMsg: 'Image uploaded successfully.', output: outputFileName });
-                });
+                res.status(200).json({ success: 'Image uploaded successfully.', output: newFileName });
             });
         });
     });
 };
+
+
+
+exports.displayOutput = (req, res) => {
+    const uploadId = savedUploadId;
+
+    if (!uploadId) {
+        return res.render('index', { message: 'Image not found.' });
+    }
+
+    db.query('SELECT input, output FROM uploads WHERE id = ?', [uploadId], (error, result) => {
+        if (error) {
+            console.error('Error fetching data from database:', error);
+            return res.render('index', { message: 'Error fetching data from database.' });
+        }
+
+        if (result.length === 0) {
+            return res.render('index', { message: 'Upload record not found.' });
+        }
+
+        const inputFileName = result[0].input;
+        const outputFileName = result[0].output;
+        console.log('Retrieved input filename:', inputFileName);
+        console.log('Retrieved output filename:', outputFileName);
+
+        return res.render('index', { 
+            image: inputFileName,
+            output: outputFileName,
+            successMessage: 'Your image has been restored.'
+        });
+    });
+};
+

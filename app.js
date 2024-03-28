@@ -31,7 +31,6 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 
 // Set view engine as Handlebars
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'views'));
 
 // Connect to the database
 db.connect((err) => {

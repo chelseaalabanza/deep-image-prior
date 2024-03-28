@@ -92,80 +92,6 @@ body {
     text-align: justify;
 }
 
-#images {
-    /* border: 1px solid rgb(55, 0, 255); */
-    height: fit-content;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: space-evenly; /* Align boxes to the start of the container */
-}
-
-.box {
-    /* border: 1px solid rgb(255, 255, 255); */
-    height: 500px;
-    width: 500px;   
-}
-
-.upload-button-container {
-    display: inline-block;
-    position: relative;
-    overflow: hidden; 
-}
-
-.uploaded-image {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 500px;
-    width: auto;
-    transform: translate(-50%, -50%);
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.upload-input {
-    display: none;
-}
-
-.upload-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 500px;
-    width: 500px;
-    font-size: 16px;
-    border: 2px solid transparent;
-    border-radius: 2vh;
-    cursor: pointer;
-    background-color: rgba(146, 146, 146, 0.1);
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-.upload-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.upload-button.content {
-    background-color: #6c757d;
-    color: #ffffff;
-}
-
-.output-container {
-    background-color: rgba(146, 146, 146, 0.1);
-    border-radius: 2vh;
-}
-
-.wrapper{
-    /* border: 1px solid rgb(255, 255, 255); */
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-
-
 .title {
     margin: 8vh;
 }
@@ -186,4 +112,82 @@ body {
 
 #references {
     background: rgba(27, 28, 29, 0.5);
+}
+
+
+
+/* RESTORE SECTION */
+
+#restore-container {
+    /* border: 1px solid rgb(122, 17, 148);  */
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.wrapper {
+    /* border: 1px solid rgb(76, 48, 200); */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.wrapper h5 {
+    margin-top: 4vh;
+}
+
+.box {
+    /* border: 1px solid rgb(255, 255, 255); */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    height: 500px;
+    width: 500px;  
+    border-radius: 2.5vh;
+    display: inline-block;
+    position: relative;
+    overflow: hidden; 
+}
+
+#input {
+    display: none;
+}
+
+#upload-box {
+    /* border: 1px solid rgb(76, 48, 200); */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    width: 500px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    border-radius: 2vh;
+    cursor: pointer;
+    background-color: rgba(146, 146, 146, 0.1);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+#upload-box:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#upload-box.content {
+    background-color: #6c757d;
+    color: #ffffff;
+}
+
+#output-holder {
+    background-color: rgba(146, 146, 146, 0.1);
+}
+
+.uploaded-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 500px;
+    width: auto;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
 }

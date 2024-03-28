@@ -1,35 +1,69 @@
 <div class="section" id="restore">
     <div class="page-heading">RESTORE AN IMAGE</div>
 
-    {{#if errMsg}}
-        <h6 class="alert alert-danger mt-4">{{{errMsg}}}</h6>
+    {{!-- Toast --}}
+    {{#if message}}
+        <h6 class="alert alert-danger mt-4">{{{message}}}</h6>
     {{/if}}
 
-    {{#if successMsg}}
-        <h6 class="alert alert-success mt-4">{{{successMsg}}}</h6>
+    {{#if messageSuccess}}
+        <h6 class="alert alert-success mt-4">{{{messageSuccess}}}</h6>
     {{/if}}
 
-    <div id="images">
 
-        {{!-- Input --}}
+    <div id="restore-container">
+
+        {{!-- Upload Input Image --}}
         <div class="wrapper">
-            <div class="box upload-button-container">
-                <input name="rawImg" type="file" id="input" class="upload-input">
-                <label for="input" class="upload-button"><h1>+</h1></label>
+
+            {{!-- Box --}}
+            <div class="box">
+                <input type="file" name="inputImg" id="input">
+                <label for="input" id="upload-box">
+                    {{#if image}}
+                        <img class="uploaded-image" src="/public/inputs/{{image}}" alt="{{image}}">
+                    {{else}}
+                        <h1>+</h1>
+                    {{/if}}
+                </label>
             </div>
-            <br>
+                
+            {{!-- Label --}}
             <div><h5>INPUT</h5></div>
+
         </div>
 
-        {{!-- Output --}}
+
+        {{!-- Display Output Image --}}
         <div class="wrapper">
-            <div class="box output-container">
-                <img src="" alt="{{output}}">
+
+            {{!-- Box --}}
+            <div class="box" id="output-holder">
+                <img src="/public/outputs/{{output}}" alt="{{output}}">
             </div>
-            <br>
+                
+            {{!-- Label --}}
             <div><h5>OUTPUT</h5></div>
+
         </div>
 
     </div>
+
+    
+
+    
+    {{#if output}}
+        <div id="restore-form">
+            <form action="/">
+                <button type="submit" class="btn btn-dark btn-block">RESTORE ANOTHER IMAGE</button>                                                               
+            </form>
+        </div>
+    {{else}}
+        <div id="restore-form">
+            <form action="/auth/displayOutput" method="POST" enctype="multipart/form-data">
+                <button type="submit" class="btn btn-dark btn-block">RESTORE IMAGE</button>                                                               
+            </form>
+        </div>
+    {{/if}}
 
 </div>
